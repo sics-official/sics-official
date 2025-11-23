@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SICS: High-Tech Historical Nexus</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030307; /* Deep Black/Blue */
+            color: #f1f5f9; /* Light text */
+            /* Subtle grid background for high-tech look */
+            background-image: linear-gradient(to right, #1f2937 1px, transparent 1px),
+                              linear-gradient(to bottom, #1f2937 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Utility for applying team colors */
+        .color-fire { color: #f87171; } .border-fire { border-color: #f87171; } .shadow-fire { box-shadow: 0 0 15px rgba(248, 113, 113, 0.7); } .bg-fire-dark { background-color: rgba(248, 113, 113, 0.1); }
+        .color-water { color: #60a5fa; } .border-water { border-color: #60a5fa; } .shadow-water { box-shadow: 0 0 15px rgba(96, 165, 250, 0.7); } .bg-water-dark { background-color: rgba(96, 165, 250, 0.1); }
+        .color-aries { color: #facc15; } .border-aries { border-color: #facc15; } .shadow-aries { box-shadow: 0 0 15px rgba(250, 202, 21, 0.7); } .bg-aries-dark { background-color: rgba(250, 202, 21, 0.1); }
+        .color-trax { color: #2dd4bf; } .border-trax { border-color: #2dd4bf; } .shadow-trax { box-shadow: 0 0 15px rgba(45, 212, 191, 0.7); } .bg-trax-dark { background-color: rgba(45, 212, 191, 0.1); }
+        .color-neon { color: #f472b6; } .border-neon { border-color: #f472b6; } .shadow-neon { box-shadow: 0 0 15px rgba(244, 114, 182, 0.7); } .bg-neon-dark { background-color: rgba(244, 114, 182, 0.1); }
+        .color-thunder { color: #fb923c; } .border-thunder { border-color: #fb923c; } .shadow-thunder { box-shadow: 0 0 15px rgba(251, 146, 60, 0.7); } .bg-thunder-dark { background-color: rgba(251, 146, 60, 0.1); }
+        .color-stellarx { color: #a78bfa; } .border-stellarx { border-color: #a78bfa; } .shadow-stellarx { box-shadow: 0 0 15px rgba(167, 139, 250, 0.7); } .bg-stellarx-dark { background-color: rgba(167, 139, 250, 0.1); }
+
+        /* General Section Styling */
+        .lavish-section {
+            background-color: #0c0c16;
+            border: 1px solid #1f2937;
+            border-radius: 1.5rem; /* Large rounded corners */
+            padding: 3rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.05);
+        }
+        .lavish-title {
+            text-shadow: 0 0 10px rgba(147, 197, 253, 0.5);
+            -webkit-text-stroke: 1px #4b5563; /* Subtle outline */
+        }
+
+        /* Expanded Team Card Styling */
+        .team-card {
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background: linear-gradient(135deg, #1f2937, #111827);
+            border: 2px solid transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05); /* Glass effect */
+            transform: skewX(-30deg) translateX(-100%);
+            transition: 0.7s;
+        }
+
+        .team-card:hover::before {
+            transform: skewX(-30deg) translateX(150%);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Hall of Legends Player Card */
+        .player-card {
+            background-color: #1a1a2e;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-bottom: 4px solid #f97316; /* Orange accent */
+        }
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Minimal Timeline Styling */
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3b82f6, #1e3a8a);
+            margin-left: -2px;
+            z-index: 0;
+        }
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 10%;
+            }
+        }
+        .timeline-item {
+            position: relative;
+            padding: 1rem 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            background-color: #3b82f6;
+            border: 3px solid #030307;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        @media (max-width: 768px) {
+            .timeline-item::before {
+                left: 10%;
+            }
+        }
+        .timeline-content {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 55%;
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 55%;
+        }
+        @media (max-width: 768px) {
+            .timeline-item:nth-child(even) .timeline-content,
+            .timeline-item:nth-child(odd) .timeline-content {
+                margin-left: 20%;
+                margin-right: 0;
+            }
+        }
+
+        /* Modal Styles */
+        #data-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+        }
+
+        #data-modal-content {
+            background: linear-gradient(145deg, #182030, #0a0e16);
+            border: 3px solid #3b82f6; /* Accent border */
+            width: 95%;
+            max-width: 1200px;
+            max-height: 95vh;
+            overflow-y: auto;
+            border-radius: 1.5rem;
+            transform: translateY(-50px) scale(0.95);
+            opacity: 0;
+            transition: all 0.4s ease-out;
+            position: relative;
+        }
+
+        /* Show Modal State */
+        #data-modal-backdrop.show {
+            display: flex;
+        }
+        #data-modal-backdrop.show #data-modal-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        /* Scrollbar styling for modal */
+        #data-modal-content::-webkit-scrollbar {
+            width: 10px;
+        }
+        #data-modal-content::-webkit-scrollbar-thumb {
+            background-color: #3b82f6;
+            border-radius: 5px;
+        }
+        #data-modal-content::-webkit-scrollbar-track {
+            background: #111827;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Hero Section (High-Tech Design) -->
+    <header class="bg-gray-950 py-16 md:py-24 border-b-4 border-blue-600 shadow-2xl shadow-blue-900/50">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-6xl md:text-8xl font-black tracking-tight lavish-title text-blue-400">
+                SICS NEXUS
+            </h1>
+            <p class="mt-4 text-2xl md:text-4xl font-light italic text-gray-300">
+                The Chronicle of Supreme Competitive History
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16 space-y-32">
+
+        <!-- PART I: THE SICS ROSTER & LEGACIES -->
+        <section id="teams-roster" class="lavish-section space-y-10">
+            <h2 class="section-title text-4xl md:text-6xl font-extrabold text-center pb-6 lavish-title text-blue-400">
+                PART I: THE SICS ROSTER & LEGACIES
+            </h2>
+            <p class="text-xl text-center text-gray-400 max-w-4xl mx-auto">
+                Access the data core for each of the seven competitive factions. Click on a team's card to reveal their full historical profile, detailed trophy vault, and the **Complete Match Archive**.
+            </p>
+
+            <!-- Expanded Grid for Team Cards (1 or 2 columns, depending on screen size) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="team-roster-cards">
+                <!-- Team cards will be dynamically inserted here by JS -->
+            </div>
+            
+             <!-- All-Time Totals -->
+             <div class="p-6 rounded-xl mt-12 border-2 border-blue-500/50 bg-gray-900/30">
+                <h3 class="text-2xl font-semibold mb-6 text-white text-center">All-Time Total Tournament Victories (1990–2025)</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 text-center" id="total-victories-grid">
+                    <!-- Totals will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PART II: HALL OF LEGENDS -->
+        <section id="hall-of-fame" class="lavish-section space-y-10">
+            <h2 class="section-title text-4xl md:text-6xl font-extrabold text-center pb-6 lavish-title text-yellow-500">
+                PART II: HALL OF LEGENDS
+            </h2>
+            <p class="text-xl text-center text-gray-400 max-w-4xl mx-auto">
+                The Immortals of Competition. These players defined their eras and left indelible marks on SICS competitive philosophy and culture.
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="hall-of-fame-players">
+                <!-- Player cards dynamically injected here -->
+            </div>
+        </section>
+
+        <!-- PART III: SICS HISTORY TIMELINE (Often at the "bottom" of content) -->
+        <section id="sics-timeline" class="lavish-section space-y-10">
+            <h2 class="section-title text-4xl md:text-6xl font-extrabold text-center pb-6 lavish-title text-green-400">
+                PART III: SICS HISTORY TIMELINE
+            </h2>
+            <p class="text-xl text-center text-gray-400 max-w-4xl mx-auto">
+                A minimalist chronological overview of key milestones, breakthroughs, and league transformations from 1990 to the present day.
+            </p>
+
+            <div class="timeline max-w-4xl mx-auto">
+                <!-- Timeline items dynamically injected here -->
+            </div>
+        </section>
+
+        <!-- PART IV: MEDIA ARCHIVE & DOCUMENTS -->
+        <section id="media-archive" class="lavish-section space-y-10">
+            <h2 class="section-title text-4xl md:text-6xl font-extrabold text-center pb-6 lavish-title text-pink-400">
+                PART IV: MEDIA ARCHIVE & DOCUMENTS
+            </h2>
+            <p class="text-xl text-center text-gray-400 max-w-4xl mx-auto">
+                Key press documents and investigative reports detailing the league's most pivotal events and controversies. Click to view the full document summary.
+            </p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="media-documents">
+                <!-- Document cards dynamically injected here -->
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Data Detail Modal (Pop-up, unified for Teams and Media) -->
+    <div id="data-modal-backdrop" onclick="closeDataModal()">
+        <div id="data-modal-content" onclick="event.stopPropagation()">
+            <!-- Close Button -->
+            <button onclick="closeDataModal()" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 transition duration-200 z-50">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Modal Header (Dynamic Content) -->
+            <div class="p-8 md:p-12 border-b-2 border-gray-700/50 flex flex-col items-start">
+                <h2 id="modal-primary-title" class="text-5xl font-extrabold text-blue-400 mb-2"></h2>
+                <p id="modal-secondary-info" class="text-xl italic text-gray-400"></p>
+            </div>
+
+            <!-- Modal Body (Dynamic Content) -->
+            <div id="modal-body-content" class="p-8 md:p-12 grid lg:grid-cols-3 gap-10">
+                <!-- Dynamic content (Team Details or Document Content) goes here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-950 mt-20 py-10 text-center border-t border-gray-800">
+        <p class="text-gray-600 text-sm">SICS NEXUS | Data Core Access (1990-2025)</p>
+    </footer>
+
+    <script>
+        // --- DATA STRUCTURES & PARSING ---
+
+        // Full match data from uploaded:SICS_CORRECT_MATCH_LIST.csv
+        // Structure: Year,Tournament,Match_No,Team_1,Team_2,Winner,Notes
+        const RAW_CSV_CONTENT = `Year,Tournament,Match_No,Team_1,Team_2,Winner,Notes
+1990,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1991,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1992,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1993,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1994,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1995,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1996,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1997,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1998,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+1999,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+2000,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,Founders Era - Single Annual Match
+2001,ICT,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,HYDRO Breakthrough
+2002,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,ICT R1 Victory
+2002,ICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,ICT R1 Victory
+2002,ICT,3,NEON CORE,THUNDERX,NEON CORE,ICT R1 Victory
+2002,ICT,4,STELLARX,HELLFIRE,STELLARX,ICT R2 Victory
+2002,ICT,5,HYDRO UNITED,ARIES VICTORY SQUAD,HYDRO UNITED,ICT R2 Victory
+2002,ICT,6,TRAX,NEON CORE,TRAX,ICT R2 Victory
+2002,LICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,LICT R1 Victory
+2002,LICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,LICT R1 Victory
+2002,LICT,3,NEON CORE,THUNDERX,NEON CORE,LICT R1 Victory
+2003,ICT,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,ICT R1 Victory
+2003,ICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,ICT R1 Victory
+2003,ICT,3,NEON CORE,THUNDERX,THUNDERX,ICT R1 Victory
+2003,ICT,4,STELLARX,HELLFIRE,STELLARX,ICT R2 Victory
+2003,ICT,5,HYDRO UNITED,ARIES VICTORY SQUAD,ARIES VICTORY SQUAD,ICT R2 Victory
+2003,ICT,6,TRAX,NEON CORE,TRAX,ICT R2 Victory
+2003,LICT,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,LICT R1 Victory
+2003,LICT,2,ARIES VICTORY SQUAD,TRAX,TRAX,LICT R1 Victory
+2003,LICT,3,NEON CORE,THUNDERX,NEON CORE,LICT R1 Victory
+2004,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,ICT R1 Victory
+2004,ICT,2,ARIES VICTORY SQUAD,TRAX,TRAX,ICT R1 Victory
+2004,ICT,3,NEON CORE,THUNDERX,NEON CORE,ICT R1 Victory
+2004,ICT,4,STELLARX,HELLFIRE,STELLARX,ICT R2 Victory
+2004,ICT,5,HYDRO UNITED,ARIES VICTORY SQUAD,HYDRO UNITED,ICT R2 Victory
+2004,ICT,6,TRAX,NEON CORE,TRAX,ICT R2 Victory
+2004,LCA,1,HELLFIRE,HYDRO UNITED,HELLFIRE,LCA R1 Victory
+2004,LCA,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,LCA R1 Victory
+2004,LCA,3,NEON CORE,THUNDERX,NEON CORE,LCA R1 Victory
+2005,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,ICT R1 Victory
+2005,ICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,ICT R1 Victory
+2005,ICT,3,NEON CORE,THUNDERX,NEON CORE,ICT R1 Victory
+2005,ICT,4,STELLARX,HELLFIRE,STELLARX,ICT R2 Victory
+2005,ICT,5,HYDRO UNITED,ARIES VICTORY SQUAD,HYDRO UNITED,ICT R2 Victory
+2005,ICT,6,TRAX,NEON CORE,NEON CORE,ICT R2 Victory
+2005,LICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,LICT R1 Victory
+2005,LICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,LICT R1 Victory
+2005,LICT,3,NEON CORE,THUNDERX,NEON CORE,LICT R1 Victory
+2005,LCA,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,LCA R1 Victory
+2005,LCA,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,LCA R1 Victory
+2005,LCA,3,NEON CORE,THUNDERX,NEON CORE,LCA R1 Victory
+2006,ICT,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,ICT R1 Victory
+2006,ICT,2,ARIES VICTORY SQUAD,TRAX,TRAX,ICT R1 Victory
+2006,ICT,3,NEON CORE,THUNDERX,NEON CORE,ICT R1 Victory
+2006,ICT,4,STELLARX,HELLFIRE,STELLARX,ICT R2 Victory
+2006,ICT,5,HYDRO UNITED,ARIES VICTORY SQUAD,ARIES VICTORY SQUAD,ICT R2 Victory
+2006,ICT,6,TRAX,NEON CORE,TRAX,ICT R2 Victory
+2006,LICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,LICT R1 Victory
+2006,LICT,2,ARIES VICTORY SQUAD,TRAX,TRAX,LICT R1 Victory
+2006,LICT,3,NEON CORE,THUNDERX,NEON CORE,LICT R1 Victory
+2006,LCA,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,LCA R1 Victory
+2006,LCA,2,ARIES VICTORY SQUAD,TRAX,TRAX,LCA R1 Victory
+2006,LCA,3,NEON CORE,THUNDERX,NEON CORE,LCA R1 Victory
+2006,DCA,1,HELLFIRE,HYDRO UNITED,HELLFIRE,DCA R1 Victory
+2006,DCA,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,DCA R1 Victory
+2006,DCA,3,NEON CORE,THUNDERX,THUNDERX,DCA R1 Victory
+2007,ICT,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,ICT R1 Victory
+2007,ICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,ICT R1 Victory
+2007,ICT,3,NEON CORE,THUNDERX,NEON CORE,ICT R1 Victory
+2007,ICT,4,STELLARX,HELLFIRE,STELLARX,ICT R2 Victory
+2007,ICT,5,HYDRO UNITED,ARIES VICTORY SQUAD,HYDRO UNITED,ICT R2 Victory
+2007,ICT,6,TRAX,NEON CORE,TRAX,ICT R2 Victory
+2007,LICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,LICT R1 Victory
+2007,LICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,LICT R1 Victory
+2007,LICT,3,NEON CORE,THUNDERX,NEON CORE,LICT R1 Victory
+2007,LCA,1,HELLFIRE,HYDRO UNITED,HYDRO UNITED,LCA R1 Victory
+2007,LCA,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,LCA R1 Victory
+2007,LCA,3,NEON CORE,THUNDERX,NEON CORE,LCA R1 Victory
+2007,DCA,1,HELLFIRE,HYDRO UNITED,HELLFIRE,DCA R1 Victory
+2007,DCA,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,DCA R1 Victory
+2007,DCA,3,NEON CORE,THUNDERX,NEON CORE,DCA R1 Victory
+2025,ICT,1,HELLFIRE,HYDRO UNITED,HELLFIRE,ICT Champion 2025
+2025,ICT,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,ICT Champion 2025
+2025,ICT,3,NEON CORE,THUNDERX,NEON CORE,ICT Champion 2025
+2025,ICT,4,STELLARX,HYDRO UNITED,STELLARX,ICT Champion 2025
+2025,ICT,5,HELLFIRE,ARIES VICTORY SQUAD,HELLFIRE,ICT Champion 2025
+2025,ICT,6,TRAX,NEON CORE,TRAX,ICT Champion 2025
+2025,ICT,7,THUNDERX,STELLARX,THUNDERX,ICT Champion 2025
+2025,ICT,8,HYDRO UNITED,HELLFIRE,HYDRO UNITED,ICT Champion 2025
+2025,ICT,9,ARIES VICTORY SQUAD,NEON CORE,NEON CORE,ICT Champion 2025
+2025,ICT,10,TRAX,THUNDERX,TRAX,ICT Champion 2025
+2025,ICT,11,STELLARX,HELLFIRE,STELLARX,ICT Champion 2025
+2025,ICT,12,HYDRO UNITED,ARIES VICTORY SQUAD,ARIES VICTORY SQUAD,ICT Champion 2025
+2025,ICT,13,NEON CORE,TRAX,TRAX,ICT Champion 2025
+2025,ICT,14,THUNDERX,STELLARX,THUNDERX,ICT Champion 2025
+2025,ICT,15,HELLFIRE,HYDRO UNITED,HELLFIRE,ICT Champion 2025
+2025,ICT,16,ARIES VICTORY SQUAD,NEON CORE,ARIES VICTORY SQUAD,ICT Champion 2025
+2025,ICT,17,TRAX,STELLARX,STELLARX,TRAX Champion, HELLFIRE 7th
+2025,ICT,18,HELLFIRE,NEON CORE,NEON CORE,TRAX Champion, HELLFIRE 7th
+2025,ICT,19,ARIES VICTORY SQUAD,TRAX,TRAX,TRAX Champion, HELLFIRE 7th
+2025,ICT,20,HYDRO UNITED,STELLARX,HYDRO UNITED,TRAX Champion, HELLFIRE 7th
+2025,LICT,1,STELLARX,TRAX,STELLARX,STELLARX Champion
+2025,LICT,2,HYDRO UNITED,NEON CORE,HYDRO UNITED,STELLARX Champion
+2025,LICT,3,THUNDERX,HELLFIRE,THUNDERX,STELLARX Champion
+2025,LICT,4,STELLARX,NEON CORE,STELLARX,STELLARX Champion
+2025,LICT,5,TRAX,HYDRO UNITED,TRAX,STELLARX Champion
+2025,LICT,6,ARIES VICTORY SQUAD,THUNDERX,ARIES VICTORY SQUAD,STELLARX Champion
+2025,LICT,7,STELLARX,HELLFIRE,STELLARX,STELLARX Champion
+2025,LICT,8,NEON CORE,TRAX,NEON CORE,STELLARX Champion
+2025,LICT,9,HYDRO UNITED,THUNDERX,HYDRO UNITED,STELLARX Champion
+2025,LICT,10,HELLFIRE,ARIES VICTORY SQUAD,HELLFIRE,STELLARX Champion
+2025,LCA,1,HELLFIRE,HYDRO UNITED,HELLFIRE,HYDRO UNITED LCA Champion
+2025,LCA,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,HYDRO UNITED LCA Champion
+2025,LCA,3,NEON CORE,THUNDERX,NEON CORE,HYDRO UNITED LCA Champion
+2025,LCA,4,STELLARX,HELLFIRE,STELLARX,HYDRO UNITED LCA Champion
+2025,LCA,5,HYDRO UNITED,ARIES VICTORY SQUAD,HYDRO UNITED,HYDRO UNITED LCA Champion
+2025,LCA,6,TRAX,NEON CORE,TRAX,HYDRO UNITED LCA Champion
+2025,DCA,1,HELLFIRE,HYDRO UNITED,HELLFIRE,HELLFIRE DCA Champion
+2025,DCA,2,ARIES VICTORY SQUAD,TRAX,ARIES VICTORY SQUAD,HELLFIRE DCA Champion
+2025,DCA,3,NEON CORE,THUNDERX,NEON CORE,HELLFIRE DCA Champion
+2025,DCA,4,STELLARX,HELLFIRE,STELLARX,HELLFIRE DCA Champion
+2025,DCA,5,HYDRO UNITED,ARIES VICTORY SQUAD,ARIES VICTORY SQUAD,HELLFIRE DCA Champion
+2025,DCA,6,TRAX,NEON CORE,TRAX,HELLFIRE DCA Champion`;
+
+        const TEAM_NAMES = ['HELLFIRE', 'HYDRO UNITED', 'ARIES VICTORY SQUAD', 'TRAX', 'NEON CORE', 'THUNDERX', 'STELLARX'];
+
+        /**
+         * Parses the raw CSV string into an array of match objects.
+         */
+        function parseCSV(csvString) {
+            const lines = csvString.trim().split('\n');
+            if (lines.length === 0) return [];
+            
+            // Assuming the first line is the header
+            const header = lines[0].split(',');
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                // Use a simple split, relying on the clean CSV format
+                const values = lines[i].split(','); 
+                if (values.length === header.length) {
+                    const match = {};
+                    header.forEach((key, index) => {
+                        match[key.trim()] = values[index].trim();
+                    });
+                    data.push(match);
+                }
+            }
+            return data;
+        }
+
+        const COMPLETE_MATCH_ARRAY = parseCSV(RAW_CSV_CONTENT);
+
+        /**
+         * Organizes the complete match data by Team and Year, in a descriptive string format.
+         */
+        function generateMatchHistory(matchArray, teamNames) {
+            const history = {};
+            teamNames.forEach(team => {
+                history[team] = {};
+            });
+
+            matchArray.forEach(match => {
+                const { Year, Tournament, Team_1, Team_2, Winner, Notes } = match;
+                const yearStr = Year.toString();
+                const team1 = Team_1;
+                const team2 = Team_2;
+
+                // Function to format the match string
+                const formatMatch = (selfTeam, opponentTeam, outcome) => 
+                    `${Tournament} vs. ${opponentTeam} (Match #${match.Match_No} - **${outcome}**) - ${Notes}`;
+
+                // Process for Team 1
+                if (history[team1]) {
+                    if (!history[team1][yearStr]) history[team1][yearStr] = [];
+                    const outcome1 = team1 === Winner ? 'Win' : 'Loss';
+                    history[team1][yearStr].push(formatMatch(team1, team2, outcome1));
+                }
+
+                // Process for Team 2
+                if (history[team2]) {
+                    if (!history[team2][yearStr]) history[team2][yearStr] = [];
+                    const outcome2 = team2 === Winner ? 'Win' : 'Loss';
+                    history[team2][yearStr].push(formatMatch(team2, team1, outcome2));
+                }
+            });
+            return history;
+        }
+
+        const COMPLETE_MATCH_HISTORY = generateMatchHistory(COMPLETE_MATCH_ARRAY, TEAM_NAMES);
+
+        // --- STATIC DATA (ENHANCED FROM UPLOADS) ---
+        const CHAMPIONS_DATA = {
+            ICT: [
+                { year: "1990", champion: "HELLFIRE" }, { year: "1991", champion: "HELLFIRE" }, { year: "1992", champion: "HELLFIRE" }, 
+                { year: "1993", champion: "HELLFIRE" }, { year: "1994", champion: "HELLFIRE" }, { year: "1995", champion: "HELLFIRE" },
+                { year: "1996", champion: "HELLFIRE" }, { year: "1997", champion: "HELLFIRE" }, { year: "1998", champion: "HELLFIRE" }, 
+                { year: "1999", champion: "HELLFIRE" }, { year: "2000", champion: "HELLFIRE" }, { year: "2001", champion: "HYDRO UNITED" },
+                { year: "2002", champion: "HYDRO UNITED" }, { year: "2003", champion: "ARIES VICTORY SQUAD" }, { year: "2004", champion: "TRAX" }, 
+                { year: "2005", champion: "NEON CORE" }, { year: "2006", champion: "HELLFIRE" }, { year: "2007", champion: "HYDRO UNITED" },
+                { year: "2008", champion: "ARIES VICTORY SQUAD" }, { year: "2009", champion: "STELLARX" }, { year: "2010", champion: "TRAX" }, 
+                { year: "2011", champion: "TRAX" }, { year: "2012", champion: "STELLARX" }, { year: "2013", champion: "THUNDERX" },
+                { year: "2014", champion: "HELLFIRE" }, { year: "2015", champion: "NEON CORE" }, { year: "2016", champion: "ARIES VICTORY SQUAD" }, 
+                { year: "2017", champion: "NEON CORE" }, { year: "2018", champion: "STELLARX" }, { year: "2019", champion: "HYDRO UNITED" },
+                { year: "2020", champion: "ARIES VICTORY SQUAD" }, { year: "2021", champion: "TRAX" }, { year: "2022", champion: "THUNDERX" }, 
+                { year: "2023", champion: "NEON CORE" }, { year: "2024", champion: "STELLARX" }, { year: "2025", champion: "TRAX" }, // Adjusted based on latest CSV data where TRAX seems dominant in ICT 2025
+            ],
+            LICT: [
+                { year: "2002", champion: "HELLFIRE" }, { year: "2003", champion: "HYDRO UNITED" }, { year: "2004", champion: "ARIES VICTORY SQUAD" },
+                { year: "2005", champion: "NEON CORE" }, { year: "2006", champion: "TRAX" }, { year: "2007", champion: "STELLARX" },
+                { year: "2008", champion: "ARIES VICTORY SQUAD" }, { year: "2009", champion: "HYDRO UNITED" }, { year: "2010", champion: "HELLFIRE" },
+                { year: "2011", champion: "TRAX" }, { year: "2012", champion: "NEON CORE" }, { year: "2013", champion: "ARIES VICTORY SQUAD" },
+                { year: "2014", champion: "STELLARX" }, { year: "2015", champion: "THUNDERX" }, { year: "2016", champion: "HELLFIRE" },
+                { year: "2017", champion: "TRAX" }, { year: "2018", champion: "NEON CORE" }, { year: "2019", champion: "ARIES VICTORY SQUAD" },
+                { year: "2020", champion: "STELLARX" }, { year: "2021", champion: "HYDRO UNITED" }, { year: "2022", champion: "HELLFIRE" },
+                { year: "2023", champion: "TRAX" }, { year: "2024", champion: "STELLARX" }, { year: "2025", champion: "STELLARX" }, // Confirmed from 2025 data
+            ],
+            LCA: [
+                { year: "2004", champion: "HELLFIRE" }, { year: "2005", champion: "NEON CORE" }, { year: "2006", champion: "TRAX" },
+                { year: "2007", champion: "ARIES VICTORY SQUAD" }, { year: "2008", champion: "STELLARX" }, { year: "2009", champion: "HYDRO UNITED" },
+                { year: "2010", champion: "THUNDERX" }, { year: "2011", champion: "TRAX" }, { year: "2012", champion: "NEON CORE" },
+                { year: "2013", champion: "HELLFIRE" }, { year: "2014", champion: "ARIES VICTORY SQUAD" }, { year: "2015", champion: "STELLARX" },
+                { year: "2016", champion: "HYDRO UNITED" }, { year: "2017", champion: "TRAX" }, { year: "2018", champion: "NEON CORE" },
+                { year: "2019", champion: "HELLFIRE" }, { year: "2020", champion: "ARIES VICTORY SQUAD" }, { year: "2021", champion: "STELLARX" },
+                { year: "2022", champion: "THUNDERX" }, { year: "2023", champion: "HYDRO UNITED" }, { year: "2024", champion: "TRAX" },
+                { year: "2025", champion: "HYDRO UNITED" }, // Confirmed from 2025 data
+            ],
+            DCA: [
+                { year: "2006", champion: "THUNDERX" }, { year: "2007", champion: "NEON CORE" }, { year: "2008", champion: "ARIES VICTORY SQUAD" },
+                { year: "2009", champion: "STELLARX" }, { year: "2010", champion: "HELLFIRE" }, { year: "2011", champion: "HYDRO UNITED" },
+                { year: "2012", champion: "TRAX" }, { year: "2013", champion: "NEON CORE" }, { year: "2014", champion: "HELLFIRE" },
+                { year: "2015", champion: "ARIES VICTORY SQUAD" }, { year: "2016", champion: "STELLARX" }, { year: "2017", champion: "THUNDERX" },
+                { year: "2018", champion: "HYDRO UNITED" }, { year: "2019", champion: "TRAX" }, { year: "2020", champion: "NEON CORE" },
+                { year: "2021", champion: "ARIES VICTORY SQUAD" }, { year: "2022", champion: "HELLFIRE" }, { year: "2023", champion: "STELLARX" },
+                { year: "2024", champion: "HYDRO UNITED" }, { year: "2025", champion: "HELLFIRE" }, // Confirmed from 2025 data
+            ]
+        };
+        
+        const TEAM_DATA_BASE = {
+            'HELLFIRE': {
+                name: 'HELLFIRE', color: 'fire', motto: 'Dominance or nothing', 
+                history: 'The Founders Era (1990-2000) dynasty that set the league\'s aggressive standard. Their modern story is defined by the 2025 ICT win, immediate DCA demotion, and the massive rebuilding effort led by Anand and New Rahul.',
+            },
+            'HYDRO UNITED': {
+                name: 'HYDRO UNITED', color: 'water', motto: 'Strategy beats strength',
+                history: 'Founded by Divyansh in 1990 as the methodical counterpoint to Hellfire. Their breakthrough 2001 ICT victory shattered Hellfire’s dynasty and legitimized controlled, data-driven, tactical adaptation.',
+            },
+            'ARIES VICTORY SQUAD': {
+                name: 'ARIES VICTORY SQUAD', color: 'aries', motto: 'Discipline above brilliance',
+                history: 'Joined in 2002. Aries is defined by its highly systematic, disciplined approach and unyielding emphasis on teamwork. Known for neutralizing aggressive strategies and achieving major upsets, they are the bulwark of competitive stability.',
+            },
+            'TRAX': {
+                name: 'TRAX', color: 'trax', motto: 'The path is quantifiable',
+                history: 'Joined in 2003. Trax is the analytical powerhouse of SICS, specializing in data-driven gameplay, experimental tactics, and constant adaptation. They were the dominant ICT team in the 2025 season.',
+            },
+            'NEON CORE': {
+                name: 'NEON CORE', color: 'neon', motto: 'Speed is our strength',
+                history: 'Joined in 2004, focusing on youth talent and high-speed, high-energy engagements. Neon Core has periods of intense, flashy dominance, often introducing new meta play styles that influence the entire league.',
+            },
+            'THUNDERX': {
+                name: 'THUNDERX', color: 'thunder', motto: 'Raw power, brute force',
+                history: 'Joined in 2005. ThunderX is known for its reliance on raw power, brute-force strategies, and highly unpredictable game sense. Their victories are often earned through sheer competitive intensity, making them a dangerous wildcard.',
+            },
+            'STELLARX': {
+                name: 'STELLARX', color: 'stellarx', motto: 'Long-range depth, infinite possibility',
+                history: 'Joined in 2006. StellarX specializes in long-range strategies and late-game planning. They are characterized by balanced, calculated dominance, culminating in their recent 2025 LICT championship.',
+            }
+        };
+
+        // Inject the dynamically generated match history into the TEAM_DATA structure
+        const TEAM_DATA = {};
+        TEAM_NAMES.forEach(teamId => {
+            TEAM_DATA[teamId] = {
+                ...TEAM_DATA_BASE[teamId],
+                matchHistory: COMPLETE_MATCH_HISTORY[teamId] || {}
+            };
+        });
+
+
+        const HALL_OF_FAME_DATA = [
+            {
+                name: 'RAHUL', team: 'HELLFIRE (Founder)', alias: 'The Fire That Never Dims', totalTitles: 19, years: '1990–2025 (Advisory)',
+                legacy: 'The most decorated player. His 11-consecutive ICT championships (1990-2000) remain unmatched. Defined the league\'s aggressive, high-risk philosophy.',
+            },
+            {
+                name: 'DIVYANSH', team: 'HYDRO UNITED (Founder)', alias: 'The Strategist', totalTitles: 12, years: '1990–2025 (Admin)',
+                legacy: 'The strategic counterpoint to Rahul. Engineered the 2001 breakthrough, ending the Hellfire dynasty and legitimizing methodical, data-driven play.',
+            },
+            {
+                name: 'ANJALI GUPTA', team: 'TRAX', alias: 'The Analyst', totalTitles: 11, years: '2003–2025',
+                legacy: 'The definitive analytical powerhouse. Instrumental in Trax\'s rise, specializing in experimental tactics and data-driven adaptation, leading to 4 ICT MVPs.',
+            },
+            {
+                name: 'MEERA SUBRAMANIAN', team: 'STELLARX', alias: 'The Star Weaver', totalTitles: 14, years: '2006–2025',
+                legacy: 'Dominant player of the Modern Era. Specializes in long-range planning and late-game strategy, leading StellarX to multiple LICT titles, including the 2025 victory.',
+            },
+            {
+                name: 'ANAND', team: 'HELLFIRE', alias: 'The New Aggression', totalTitles: 1, years: '2025–present',
+                legacy: 'Core member of the 2025 Championship Squad. Represents the new generation of Hellfire aggression and tactical versatility, poised for multi-era dominance.',
+            },
+        ];
+
+        const TIMELINE_DATA = [
+            { year: 1990, title: "SICS Founding & Fire vs. Water", description: "Rahul (HELLFIRE) and Divyansh (HYDRO UNITED) establish SICS, beginning the foundational 'Fire vs. Water' rivalry." },
+            { year: 1997, title: "HELLFIRE's Perfect Season", description: "Rahul leads HELLFIRE to a flawless 16-0 ICT season, establishing an era of unmatched dominance." },
+            { year: 2001, title: "The Breakthrough", description: "HYDRO UNITED shatters the 11-year HELLFIRE dynasty, winning the ICT and validating strategic, data-driven competitive play." },
+            { year: 2002, title: "Expansion Era Begins", description: "SICS expands to a seven-team league format, adding five new factions. LICT and LCA tiers are established." },
+            { year: 2018, title: "Meera's Peak Dominance", description: "Meera Subramanian leads STELLARX to a decisive ICT victory, marking the transition to the modern, balanced strategic era." },
+            { year: 2025, title: "The Demotion Controversy", description: "HELLFIRE is controversially demoted to DCA despite their strong competitive performance, fueling major debates about competitive balance rules." },
+            { year: 2025, title: "STELLARX LICT Championship", description: "STELLARX wins the LICT title, confirming their consistent late-game strategic vision across multiple tournaments." },
+        ];
+
+        const MEDIA_ARCHIVE_DATA = [
+            {
+                title: 'GHL: The Cost of Victory', source: 'Global Herald Ledger (April 2025)', category: 'Financial & Sponsorship',
+                content: 'Investigative report detailing HELLFIRE\'s aggressive financial strategy, including controversial sponsorship clauses and their impact on competitive fairness. The findings indirectly fueled the later demotion debate.',
+            },
+            {
+                title: 'IGNIS: The Breakthrough', source: 'IGNIS Video Archive (2001 Documentary)', category: 'Historical Match Analysis',
+                content: 'The definitive documentary covering the dramatic 2001 ICT Final where Divyansh\'s HYDRO UNITED executed the "Calculated Counter-Aggression" to end HELLFIRE\'s legendary 11-year streak. A SICS culture defining moment.',
+            },
+            {
+                title: 'GHL: Was the Demotion Fair?', source: 'Global Herald Ledger (September 2025)', category: 'Controversy & League Policy',
+                content: 'A deep-dive analysis into the competitive balance rules that led to HELLFIRE\'s demotion to the DCA despite their 2025 ICT championship. The document explores player and management feedback on the league\'s decision.',
+            },
+            {
+                title: 'IGNIS: The New Fire', source: 'IGNIS Video Archive (2025 Documentary)', category: 'Team Profile',
+                content: 'Focus on the HELLFIRE 2025 Championship Squad (Anand, Sahana, New Rahul, New Divyansh), detailing their aggressive return to form and the psychological intensity required to reclaim the ICT title.',
+            },
+        ];
+
+
+        // --- CORE UTILITIES ---
+
+        function getTeamTotalWins(teamId) {
+            let total = 0;
+            ['ICT', 'LICT', 'LCA', 'DCA'].forEach(tournament => {
+                total += CHAMPIONS_DATA[tournament].filter(row => row.champion === teamId).length;
+            });
+            return total;
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        // Part I: Roster Cards
+        function renderTeamRoster() {
+            const rosterContainer = document.getElementById('team-roster-cards');
+            rosterContainer.innerHTML = Object.keys(TEAM_DATA).map(key => {
+                const team = TEAM_DATA[key];
+                const teamTotalWins = getTeamTotalWins(key);
+                return `
+                    <div class="team-card p-6 rounded-2xl border-l-4 border-${team.color} shadow-${team.color} bg-${team.color}-dark"
+                         data-team-id="${key}" onclick="openTeamModal('${key}')">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-3xl font-extrabold color-${team.color}">${team.name}</h4>
+                            <span class="text-xs font-mono text-gray-500 bg-gray-900 px-3 py-1 rounded-full border border-gray-700">DATA CORE</span>
+                        </div>
+                        <p class="text-lg italic text-gray-300 mb-4">"${team.motto}"</p>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <p class="text-sm text-gray-400">Total SICS Titles:</p>
+                            <p class="text-5xl font-black text-white leading-none">${teamTotalWins}</p>
+                            <p class="text-xs text-gray-500 mt-2">Click for full historical profile & **Match Archive** &rarr;</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Part I: Total Wins Grid
+        function calculateAndRenderTotals() {
+            const teamTotals = {};
+            ['ICT', 'LICT', 'LCA', 'DCA'].forEach(tournament => {
+                CHAMPIONS_DATA[tournament].forEach(row => {
+                    const team = row.champion;
+                    teamTotals[team] = (teamTotals[team] || 0) + 1;
+                });
+            });
+            
+            const teamInfo = {
+                'HELLFIRE': { color: 'color-fire', shortName: 'FIRE' }, 'HYDRO UNITED': { color: 'color-water', shortName: 'HYDRO' },
+                'ARIES VICTORY SQUAD': { color: 'color-aries', shortName: 'ARIES' }, 'TRAX': { color: 'color-trax', shortName: 'TRAX' },
+                'NEON CORE': { color: 'color-neon', shortName: 'NEON' }, 'THUNDERX': { color: 'color-thunder', shortName: 'THUNDER' },
+                'STELLARX': { color: 'color-stellarx', shortName: 'STELLARX' }
+            };
+
+            const sortedTeams = Object.keys(teamTotals)
+                .map(team => ({
+                    name: team,
+                    total: teamTotals[team],
+                    colorClass: teamInfo[team] ? teamInfo[team].color : 'text-gray-400',
+                    shortName: teamInfo[team] ? teamInfo[team].shortName : team
+                }))
+                .sort((a, b) => b.total - a.total); 
+
+            const grid = document.getElementById('total-victories-grid');
+            grid.innerHTML = sortedTeams.map(team => `
+                <div class="p-4 bg-gray-900 rounded-xl transition duration-300 hover:bg-gray-800 border-b-4 border-white/10 shadow-xl">
+                    <p class="text-5xl font-extrabold ${team.colorClass}">${team.total}</p>
+                    <p class="text-sm text-gray-500 mt-1">${team.shortName}</p>
+                </div>
+            `).join('');
+        }
+
+        // Part II: Hall of Fame Players
+        function renderHallOfFame() {
+            const hallContainer = document.getElementById('hall-of-fame-players');
+            hallContainer.innerHTML = HALL_OF_FAME_DATA.map(player => `
+                <div class="player-card p-6 rounded-2xl shadow-xl space-y-3">
+                    <h3 class="text-3xl font-black text-orange-400">${player.name}</h3>
+                    <p class="text-sm font-mono text-gray-400 border-b border-gray-700 pb-2">${player.team} | ${player.years}</p>
+                    <p class="text-xl italic text-white">"${player.alias}"</p>
+                    <div class="pt-2">
+                        <p class="text-sm text-gray-500">Legacy:</p>
+                        <p class="text-base text-gray-300">${player.legacy}</p>
+                        <p class="mt-4 text-center text-xs font-bold bg-orange-900/50 p-1 rounded-full text-orange-200">
+                            ${player.totalTitles} TOTAL SICS CHAMPIONSHIPS
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Part III: History Timeline
+        function renderTimeline() {
+            const timelineContainer = document.querySelector('#sics-timeline .timeline');
+            timelineContainer.innerHTML = TIMELINE_DATA.map((event, index) => {
+                const isLeft = index % 2 === 0;
+                const alignment = isLeft ? 'text-right md:pr-10' : 'text-left md:pl-10';
+                return `
+                    <div class="timeline-item flex ${isLeft ? 'justify-start' : 'justify-end'}">
+                        <div class="w-1/2 ${alignment} md:w-full">
+                            <div class="timeline-content hover:bg-gray-700/50">
+                                <h4 class="text-2xl font-bold text-green-300">${event.year}</h4>
+                                <p class="text-xl font-semibold text-white">${event.title}</p>
+                                <p class="text-gray-400 mt-2">${event.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Part IV: Media Archive
+        function renderMediaArchive() {
+            const mediaContainer = document.getElementById('media-documents');
+            mediaContainer.innerHTML = MEDIA_ARCHIVE_DATA.map((doc, index) => `
+                <div class="team-card p-6 rounded-2xl border-l-4 border-pink-500 shadow-pink-500/50 bg-pink-900/10 cursor-pointer hover:border-pink-300"
+                     onclick="openMediaModal(${index})">
+                    <h4 class="text-2xl font-extrabold color-neon">${doc.title}</h4>
+                    <p class="text-sm font-mono text-gray-400 mb-4">${doc.source}</p>
+                    <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-700 text-gray-200">${doc.category}</span>
+                    <p class="mt-4 text-gray-300 line-clamp-3">${doc.content}</p>
+                    <p class="mt-3 text-xs text-pink-400 hover:text-pink-200 transition duration-150">Click to read full document summary & context &rarr;</p>
+                </div>
+            `).join('');
+        }
+
+
+        // --- MODAL FUNCTIONS (Unified for Team and Media) ---
+
+        // Function to open the modal for Team details
+        function openTeamModal(teamId) {
+            const team = TEAM_DATA[teamId];
+            if (!team) return;
+
+            document.getElementById('modal-primary-title').textContent = team.name;
+            document.getElementById('modal-primary-title').className = `text-5xl font-extrabold mb-2 color-${team.color}`;
+            document.getElementById('modal-secondary-info').textContent = `"${team.motto}"`;
+            
+            const modalBody = document.getElementById('modal-body-content');
+            
+            // --- Build Team Body Content ---
+            
+            // Column 2: Historical Match Log (Grouped by Year, Reverse Chronological)
+            let matchesHtml = '<h3 class="text-3xl font-extrabold mb-4 text-red-400 border-b border-gray-600 pb-2">HISTORICAL MATCH LOG (Full Archive)</h3>';
+
+            // 1. Get years and sort them in reverse chronological order (2025, 2024, ...)
+            const years = Object.keys(team.matchHistory || {}).sort((a, b) => parseInt(b) - parseInt(a));
+
+            if (years.length > 0) {
+                years.forEach(year => {
+                    matchesHtml += `
+                        <div class="mt-6 mb-4">
+                            <h4 class="text-2xl font-bold text-red-300 mb-2">${year} Season Matches (${team.matchHistory[year].length})</h4>
+                            <ul class="space-y-2">
+                                ${team.matchHistory[year].map(match => `
+                                    <li class="p-3 bg-gray-800 rounded-lg border-l-4 ${match.includes('Win**') ? 'border-green-500' : 'border-red-500'} shadow-md transition duration-300 hover:bg-gray-700/50 text-sm md:text-base text-gray-200">
+                                        ${match}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                });
+            } else {
+                matchesHtml = '<p class="text-gray-500 italic">No detailed match history available.</p>';
+            }
+            
+            // Calculate specific tournament totals for the team
+            let totalHtml = '';
+            let teamTotal = 0;
+
+            ['ICT', 'LICT', 'LCA', 'DCA'].forEach(tournament => {
+                const count = CHAMPIONS_DATA[tournament].filter(row => row.champion === teamId).length;
+                teamTotal += count;
+                totalHtml += `
+                    <div class="flex justify-between items-center p-3 bg-gray-800 rounded-md border-b border-gray-700">
+                        <span class="font-semibold text-gray-400">${tournament} Titles:</span>
+                        <span class="text-2xl font-extrabold text-green-400">${count}</span>
+                    </div>
+                `;
+            });
+            
+            // Final combined HTML structure for the modal body
+            let bodyHtml = `
+                <!-- Column 1: Team History -->
+                <div class="space-y-4 lg:col-span-1">
+                    <h3 class="text-3xl font-extrabold mb-4 text-yellow-400 border-b border-gray-600 pb-2">HISTORY LOG</h3>
+                    <p class="text-gray-300 leading-relaxed text-lg">${team.history}</p>
+                    
+                    <!-- Trophy Vault -->
+                    <div class="space-y-4 pt-8">
+                        <h3 class="text-3xl font-extrabold mb-4 text-green-400 border-b border-gray-600 pb-2">TROPHY VAULT</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-4 bg-gray-950 rounded-lg border-2 border-yellow-400 shadow-xl shadow-yellow-800/50 mb-6">
+                                <span class="font-extrabold text-yellow-400 text-xl">GRAND TOTAL VICTORIES:</span>
+                                <span class="text-4xl font-extrabold text-yellow-300">${teamTotal}</span>
+                            </div>
+                            ${totalHtml}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 & 3: Match Archive (Spanning two columns to give it maximum space) -->
+                <div class="space-y-4 lg:col-span-2 max-h-[70vh] overflow-y-auto pr-4">
+                    ${matchesHtml}
+                </div>
+            `;
+            
+            modalBody.innerHTML = bodyHtml;
+            // --- End Body Content ---
+
+            // Show the modal
+            document.getElementById('data-modal-backdrop').classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling the main body
+        }
+
+        // Function to open the modal for Media documents
+        function openMediaModal(index) {
+            const doc = MEDIA_ARCHIVE_DATA[index];
+            if (!doc) return;
+
+            document.getElementById('modal-primary-title').textContent = doc.title;
+            document.getElementById('modal-primary-title').className = `text-5xl font-extrabold mb-2 text-pink-400`;
+            document.getElementById('modal-secondary-info').textContent = `${doc.source} (${doc.category})`;
+
+            const modalBody = document.getElementById('modal-body-content');
+
+            // --- Build Media Body Content ---
+            const bodyHtml = `
+                <div class="space-y-6 lg:col-span-3">
+                    <h3 class="text-3xl font-extrabold text-blue-400 border-b border-gray-600 pb-2">DOCUMENT SUMMARY & CONTEXT</h3>
+                    <p class="text-gray-300 leading-loose text-xl">${doc.content}</p>
+                    <div class="p-4 bg-gray-900 rounded-lg border-l-4 border-pink-500 shadow-md">
+                        <p class="text-lg font-semibold text-gray-200">Publication Context:</p>
+                        <p class="text-gray-400">${doc.source} is a vital source for league analysis, and this ${doc.category} piece offers detailed insights into SICS competitive dynamics.</p>
+                    </div>
+                </div>
+            `;
+            modalBody.innerHTML = bodyHtml;
+            // --- End Body Content ---
+
+            // Show the modal
+            document.getElementById('data-modal-backdrop').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+
+        function closeDataModal() {
+            document.getElementById('data-modal-backdrop').classList.remove('show');
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Part I Renders
+            setTimeout(() => {
+                renderTeamRoster();
+                calculateAndRenderTotals();
+            }, 50);
+            
+            // New Section Renders
+            renderHallOfFame();
+            renderTimeline();
+            renderMediaArchive();
+
+        });
+    </script>
+</body>
+</html>
